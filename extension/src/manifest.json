@@ -1,0 +1,25 @@
+{
+    "manifest_version": 2,
+    "name": "Gmail Phishing Detector",
+    "version": "1.0",
+    "permissions": [
+        "activeTab",
+        "https://mail.google.com/",
+        "tabs",
+        "*://*/*"
+    ],
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://mail.google.com/*"],
+            "js": ["content.js"],
+            "run_at": "document_end"
+        }
+    ],
+    "browser_action": {
+        "default_popup": "popup.html"
+    }
+  }
+  
