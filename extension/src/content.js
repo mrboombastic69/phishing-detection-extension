@@ -10,15 +10,33 @@ function getEmailContent() {
   return '';
 }
 
+function getEmailSender() {
+  let emailSenderElement = document.querySelector('.gD'); // Selector for the sender's email element
+  if (emailSenderElement) {
+    console.log('Email sender extracted:', emailSenderElement.getAttribute('email'));
+    return emailSenderElement.getAttribute('email');
+  }
+  console.log('No email sender found.');
+  return '';
+}
+
 function sendEmailContent() {
   const emailContent = getEmailContent();
+  const emailSender = getEmailSender();
+  
   if (emailContent && emailContent !== previousEmailContent) {
-    browser.runtime.sendMessage({ action: 'checkEmail', content: emailContent });
-    console.log('Sent email content to background script:', emailContent);
+    const emailData = {
+      action: 'checkEmail',
+      content: emailContent,
+      sender: emailSender,
+    };
+    browser.runtime.sendMessage(emailData);
+    console.log('Sent email data to background script:', emailData);
     previousEmailContent = emailContent; // Update the previously sent content
     emailContentSent = true; // Set flag to true after sending
   }
 }
+
 
 // Debounce function to limit how often sendEmailContent is called
 function debounce(func, wait) {
@@ -49,3 +67,4 @@ if (emailContentArea) {
 } else {
   console.log('Email content area not found.');
 }
+
