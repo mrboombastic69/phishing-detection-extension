@@ -1,4 +1,7 @@
 console.log('Content script is running');
+let previousEmailContent = ''; // Initialize the previousEmailContent variable
+let emailContentSent = false; // Initialize the emailContentSent variable
+
 
 function getEmailContent() {
   let emailContentElement = document.querySelector('.ii.gt');
@@ -68,3 +71,41 @@ if (emailContentArea) {
   console.log('Email content area not found.');
 }
 
+// Listen for messages from the background script
+browser.runtime.onMessage.addListener((message) => {
+  if (message.action === 'showAlert') {
+    console.log('Phishing alert received from background script');
+    showAlertOverlay(message.content);
+  }
+});
+
+function showAlertOverlay(content) {
+  const overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = '0';
+  overlay.style.left = '0';
+  overlay.style.width = '100%';
+  overlay.style.height = '100%';
+  overlay.style.backgroundColor = 'rgba(255, 0, 0, 0.5)';
+  overlay.style.color = 'white';
+  overlay.style.zIndex = '10000';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.fontSize = '24px';
+  overlay.style.fontWeight = 'bold';
+  overlay.innerText = 'Phishing attempt detected!';
+  
+  const dismissButton = document.createElement('button');
+  dismissButton.innerText = 'Dismiss';
+  dismissButton.style.marginTop = '20px';
+  dismissButton.style.padding = '10px 20px';
+  dismissButton.style.fontSize = '16px';
+  dismissButton.style.cursor = 'pointer';
+  dismissButton.onclick = () => {
+    document.body.removeChild(overlay);
+  };
+  
+  overlay.appendChild(dismissButton);
+  document.body.appendChild(overlay);
+}
