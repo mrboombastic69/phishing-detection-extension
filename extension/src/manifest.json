@@ -6,14 +6,20 @@
         "activeTab",
         "https://mail.google.com/",
         "tabs",
-        "*://*/*"
+        "*://*/*",
+        "activeTab",
+        "webRequest",
+        "webRequestBlocking",
+        "http://localhost:5000/",
+        "storage"
     ],
     "background": {
-        "scripts": ["background.js"]
+        "scripts": ["background.js"],
+        "persistent": false
     },
     "content_scripts": [
         {
-            "matches": ["https://mail.google.com/*"],
+            "matches": ["*://mail.google.com/*"],
             "js": ["content.js"],
             "run_at": "document_end"
         }
