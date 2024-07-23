@@ -1,0 +1,27 @@
+{
+    "manifest_version": 2,
+    "name": "URL Phishing Detector",
+    "version": "1.0",
+    "permissions": [
+        "activeTab",
+        "*://*/*",
+        "webRequest",
+        "webRequestBlocking",
+        "http://localhost:5000/",
+        "storage"
+    ],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"],
+            "run_at": "document_end"
+        }
+    ],
+    "browser_action": {
+        "default_popup": "popup.html"
+    }
+}

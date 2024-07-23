@@ -1,0 +1,1 @@
+This is the phishing email detection extension
