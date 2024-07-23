@@ -1,11 +1,13 @@
 import torch
 import torch.nn as nn
 import joblib
+import pickle
 import numpy as np
 import re
 import whois
 from datetime import datetime
 import requests
+import dns.resolver
 import random
 from bs4 import BeautifulSoup
 import requests
@@ -39,7 +41,12 @@ class ChurnModel(nn.Module):
 class MLPModel:
     def __init__(self, model_path):
         # Load the model object
-        self.model = joblib.load(model_path)
+        
+        #self.model = joblib.load(model_path)
+        # Load the model state_dict using pickle
+        with open(model_path, 'rb') as f:
+            self.model = pickle.load(f)
+            
         self.model.eval()  # Set the model to evaluation mode
 
     def predict(self, input_data):
@@ -163,16 +170,6 @@ class UrlAnalysis:
                 return len(internal_links) / total_links
             except requests.RequestException:
                 return 0.0
-
-        # def empty_title(url) -> int:
-        #     try:
-        #         response = requests.get(url, timeout=5)
-        #         response.raise_for_status()
-        #         soup = BeautifulSoup(response.content, 'html.parser')
-        #         title = soup.title.string if soup.title else ''  # Safely handle None
-        #         return int(len(title.strip()) == 0)
-        #     except requests.RequestException:
-        #         return 1
         def empty_title(url) -> int:
             try:
                 response = requests.get(url, timeout=5)
@@ -284,3 +281,4 @@ def is_phishing(url: str) -> bool:
     prediction = model.predict(features_tensor)
     # Return prediction as an integer (0 or 1)
     return bool(prediction[0][0])
+print(is_phishing('https://www.google.com/'))
