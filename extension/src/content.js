@@ -90,22 +90,27 @@ function showAlertOverlay(content) {
   overlay.style.color = 'white';
   overlay.style.zIndex = '10000';
   overlay.style.display = 'flex';
+  overlay.style.flexDirection = 'column';
   overlay.style.alignItems = 'center';
   overlay.style.justifyContent = 'center';
   overlay.style.fontSize = '24px';
   overlay.style.fontWeight = 'bold';
-  overlay.innerText = 'Phishing attempt detected!';
-  
+
+  const alertText = document.createElement('div');
+  alertText.innerText = 'Phishing attempt detected!';
+  alertText.style.color = 'black';
+  alertText.style.marginBottom = '20px';
+
   const dismissButton = document.createElement('button');
   dismissButton.innerText = 'Dismiss';
-  dismissButton.style.marginTop = '20px';
   dismissButton.style.padding = '10px 20px';
   dismissButton.style.fontSize = '16px';
   dismissButton.style.cursor = 'pointer';
   dismissButton.onclick = () => {
     document.body.removeChild(overlay);
   };
-  
+
+  overlay.appendChild(alertText);
   overlay.appendChild(dismissButton);
   document.body.appendChild(overlay);
 }
