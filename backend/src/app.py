@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 
 from database.db import add_or_update_email_data, add_or_update_url_data
+from detection import model_class
 
 app = Flask(__name__)
 
@@ -39,8 +40,7 @@ def is_phishing_email(email_content, sender):
     return True
 
 def is_phishing_url(url):
-    ...
-    return True
+    return model_class.is_phishing(url)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
