@@ -10,7 +10,7 @@
         "activeTab",
         "webRequest",
         "webRequestBlocking",
-        "http://localhost:5000/",
+        "http://192.168.101.215:5000/",
         "storage"
     ],
     "background": {
@@ -27,5 +27,4 @@
     "browser_action": {
         "default_popup": "popup.html"
     }
-  }
-  
+}
