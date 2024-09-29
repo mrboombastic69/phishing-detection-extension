@@ -1,1 +1,1 @@
-A Browser Extension to detect phishing emails
+A Browser Extension to detect phishing emails and urls
