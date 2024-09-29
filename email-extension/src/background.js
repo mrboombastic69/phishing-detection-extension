@@ -7,7 +7,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         console.log('Sending email content to backend for analysis...');
         
         try {
-            const response = await fetch('http://192.168.101.215:5000/check/email', {
+            const response = await fetch('http://localhost:5000/check/email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email_content: message.content, sender: message.sender })
